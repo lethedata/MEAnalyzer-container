@@ -7,9 +7,16 @@
 ```sh
 podman run --rm -it \
   --security-opt label=disable \
-  --volume ${PWD}:/pwd --workdir /pwd \
+  --volume "${PWD}:/pwd" --workdir /pwd \
   meanalyzer:latest ME.bin
 ```
+
+## Container Tags
+
+- `stable`: latest MEAnalyzer with latest DB
+- `vA.B.C-rXYZ`: A.B.C MEAnalyzer with XYZ DB
+- `vA.B.C-latest`: A.B.C MEAnalyzer with latest DB
+- `latest`: master git of MEAnalyzer and DB
 
 ## Building
 
@@ -30,16 +37,6 @@ podman build . \
 
 Note that MEAnalyzer tags start with "v" and DB_VERSION needs to be prepended with "tags/"
 
-## MEAnalyzer License Compliance
-
-To view MEAnalyzer license, override the entrypoint:
-
-```sh
-podman run --rm -it \
-  --entrypoint /bin/cat
-  meanalyzer:latest /opt/LICENSE
-```
-
 ## Terminal Integration
 
 ### A) Create function to .bashrc
@@ -48,8 +45,8 @@ podman run --rm -it \
 meanalyzer(){
   podman run --rm -it \
     --security-opt label=disable \
-    --volume ${PWD}:/pwd --workdir /pwd \
-    meanalyzer:latest $@
+    --volume "${PWD}:/pwd" --workdir /pwd \
+    meanalyzer:latest "$@"
 }
 ```
 
@@ -64,4 +61,14 @@ podman run --rm -it \
   --security-opt label=disable \
   --volume "${PWD}:/pwd" --workdir /pwd \
   meanalyzer:latest "$@"
+```
+
+## MEAnalyzer License Compliant
+
+To view MEAnalyzer license, override the entrypoint:
+
+```sh
+podman run --rm -it \
+  --entrypoint /bin/cat
+  meanalyzer:latest /opt/LICENSE
 ```
